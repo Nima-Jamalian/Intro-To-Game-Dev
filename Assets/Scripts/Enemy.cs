@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] float speed = 3f;
+    GameManager gameManager;
+    UIManager uIManager; 
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        uIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        transform.Translate(Vector3.down * Time.deltaTime * speed);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -21,6 +25,8 @@ public class Enemy : MonoBehaviour
         Debug.Log(collision.name + " hit me!!!");
 
         if (collision.CompareTag("Laser")){
+            gameManager.score++;
+            uIManager.UpdateScoreUI(gameManager.score);
             Destroy(gameObject);
         }
     }

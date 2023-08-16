@@ -33,13 +33,33 @@ public class Player : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         direction = new Vector3(horizantalInput, verticalInput, 0);
         transform.Translate(direction * speed * Time.deltaTime);
+
+        if(transform.position.x > 3.72f)
+        {
+            transform.position = new Vector3(-3.77f, transform.position.y, transform.position.z);
+        } else if (transform.position.x < -3.77f)
+        {
+            transform.position = new Vector3(3.72f, transform.position.y, transform.position.z);
+        }
+
+        //Clamp Player Y value between end of screen and center point
+        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -4.1f, -1.5f),transform.position.z);
     }
 
     private void Shooting()
     {
         if(Input.GetKeyDown(KeyCode.Space) == true)
         {
-            laser.SetActive(true);
+            //laser.SetActive(true);
+            Instantiate(laser, transform.position, transform.rotation);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            Destroy(gameObject);
         }
     }
 }
