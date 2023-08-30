@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -22,6 +23,11 @@ public class UIManager : MonoBehaviour
     public void UpdateScoreUI(int scoreValu)
     {
         scoreText.text = "Score: " + scoreValu.ToString();
+    }
+
+    public void OnPlayButtonClick()
+    {
+        SceneManager.LoadScene(1);
     }
 
 }
